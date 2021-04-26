@@ -10,7 +10,7 @@ const signup_user = async (req: Request, res: Response) => {
         password
     };
     try {
-        const result = await service.createUser(newUser)
+        const result = await service.signupUser(newUser)
         res.json({
             success: true,
             user: result

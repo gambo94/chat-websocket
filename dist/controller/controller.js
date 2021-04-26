@@ -51,7 +51,7 @@ var signup_user = function (req, res) { return __awaiter(_this, void 0, void 0, 
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, service.createUser(newUser)];
+                return [4 /*yield*/, service.signupUser(newUser)];
             case 2:
                 result = _a.sent();
                 res.json({
