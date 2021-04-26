@@ -3,7 +3,7 @@
    "host": "localhost",
    "port": 3306,
    "username": "root",
-   "password": "Sonoetero94",
+   "password": "Junanago94",
    "database": "chat_socket",
    "synchronize": true,
    "logging": false,
