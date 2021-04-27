@@ -7,11 +7,8 @@ var app = express();
 // Setting up socket
 var server = http.createServer(app);
 var io = require('socket.io')(server);
-// event 
-io.on('connection', function (socket) {
-    console.log('new user connected');
-    socket.emit('message', 'Welcome to the chattt');
-});
+// passing io events to another file to manage them there
+require('./events/sockets')(io);
 // Settings
 app.set('port', process.env.PORT || 3000);
 // middlewares
