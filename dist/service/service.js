@@ -38,6 +38,7 @@ var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var User_1 = require("../entity/User");
+var Message_1 = require("../entity/Message");
 var typeorm_1 = require("typeorm");
 var signupUser = function (user) { return __awaiter(_this, void 0, void 0, function () {
     var userRepo, userCreated;
@@ -51,5 +52,17 @@ var signupUser = function (user) { return __awaiter(_this, void 0, void 0, funct
         }
     });
 }); };
-module.exports = { signupUser: signupUser };
+var saveChatMessage = function (chatObj) { return __awaiter(_this, void 0, void 0, function () {
+    var msgRepo, msgCreated;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                msgRepo = typeorm_1.getRepository(Message_1.Message);
+                msgCreated = msgRepo.create(chatObj);
+                return [4 /*yield*/, msgRepo.save(msgCreated)];
+            case 1: return [2 /*return*/, _a.sent()];
+        }
+    });
+}); };
+module.exports = { signupUser: signupUser, saveChatMessage: saveChatMessage };
 //# sourceMappingURL=service.js.map

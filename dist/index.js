@@ -3,7 +3,7 @@ var express = require('express');
 var http = require('http');
 var routes = require('./routes/router');
 var morgan = require('morgan');
-var app = express();
+var app = require('express')();
 // Setting up socket
 var server = http.createServer(app);
 var io = require('socket.io')(server);
@@ -18,7 +18,7 @@ app.use(morgan('dev'));
 var parentDir = path.dirname(__dirname);
 app.use(express.static(path.join(parentDir, 'public')));
 // routes
-app.use(routes);
+// app.use(routes);
 server.listen(app.get('port'), function () {
     // connecting to DB
     var connect = require('./config/dbConnect')();

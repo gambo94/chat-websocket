@@ -2,6 +2,15 @@ const service = require('../service/service');
 import { Request, Response } from 'express'
 
 
+const saveChatMessage = async (user, msg) => {
+    console.log('from controller', user, msg);
+    let chatObj = {
+        username: user,
+        message_content: msg,
+    }
+    await service.saveChatMessage(chatObj);
+}
+
 const signup_user = async (req: Request, res: Response) => {
     let username = req.body.username;
     let password = req.body.password;
@@ -24,4 +33,4 @@ const signup_user = async (req: Request, res: Response) => {
     }
 }
 
-module.exports = { signup_user }
+module.exports = { signup_user, saveChatMessage }

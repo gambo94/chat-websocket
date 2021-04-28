@@ -5,7 +5,7 @@ const routes = require('./routes/router')
 const morgan = require('morgan');
 
 
-const app = express();
+const app = require('express')();
 
 // Setting up socket
 const server = http.createServer(app);
@@ -27,7 +27,7 @@ const parentDir = path.dirname(__dirname);
 app.use(express.static(path.join(parentDir, 'public')));
 
 // routes
-app.use(routes);
+// app.use(routes);
 
 
 
