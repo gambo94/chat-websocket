@@ -19,14 +19,14 @@
 				<h1><i class="far fa-user"></i> NodeChat</h1>
 			</header>
 			<main class="join-main">
-				<form action="/chat" method="POST">
+				<form action="/login" method="POST">
 					<div class="form-control">
 						<label for="username">Username</label>
 						<input
 							type="text"
 							name="username"
 							id="username"
-							placeholder="Enter username..."
+							placeholder="Choose an username..."
 							required
 						/>
 					</div>
@@ -36,21 +36,12 @@
 							type="text"
 							name="password"
 							id="password"
-							placeholder="Enter password..."
+							placeholder="Choose a password..."
 							required
 						/>
 					</div>
-					<div class="form-control">
-						<label for="room">Room</label>
-						<select name="room" id="room">
-							<option value="JavaScript">Anime</option>
-							<option value="Python">Manga</option>
-							<option value="PHP">Music</option>
-							<option value="C#">General</option>
-						</select>
-					</div>
-					<div><a href="signup.html">Sign up</a></div>
-					<button type="submit" class="btn">Log in</button>
+					<div><a href="index.html">Go to log in</a></div>
+					<button type="submit" class="btn">Sign up</button>
 				</form>
 			</main>
 		</div>

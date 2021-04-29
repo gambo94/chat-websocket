@@ -52,6 +52,24 @@ var signupUser = function (user) { return __awaiter(_this, void 0, void 0, funct
         }
     });
 }); };
+var logUser = function (user) { return __awaiter(_this, void 0, void 0, function () {
+    var name, pwd;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                console.log('aqui llego');
+                name = user.username;
+                pwd = user.password;
+                return [4 /*yield*/, typeorm_1.getRepository(User_1.User)
+                        .createQueryBuilder()
+                        .where('username = :username OR password = :password', { username: name, password: pwd })
+                        .getOneOrFail()];
+            case 1:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); };
 var saveChatMessage = function (chatObj) { return __awaiter(_this, void 0, void 0, function () {
     var msgRepo, msgCreated;
     return __generator(this, function (_a) {
@@ -64,5 +82,5 @@ var saveChatMessage = function (chatObj) { return __awaiter(_this, void 0, void 
         }
     });
 }); };
-module.exports = { signupUser: signupUser, saveChatMessage: saveChatMessage };
+module.exports = { signupUser: signupUser, logUser: logUser, saveChatMessage: saveChatMessage };
 //# sourceMappingURL=service.js.map

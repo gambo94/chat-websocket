@@ -13,12 +13,13 @@ require('./events/sockets')(io);
 app.set('port', process.env.PORT || 3000);
 // middlewares
 app.use(express.json());
-app.use(morgan('dev'));
+app.use(express.urlencoded({ extended: true }));
+// app.use(morgan('dev'));
 // static files
 var parentDir = path.dirname(__dirname);
 app.use(express.static(path.join(parentDir, 'public')));
 // routes
-// app.use(routes);
+app.use(routes);
 server.listen(app.get('port'), function () {
     // connecting to DB
     var connect = require('./config/dbConnect')();

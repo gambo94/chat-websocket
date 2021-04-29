@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var service = require('../service/service');
+var path = require('path');
 var saveChatMessage = function (user, msg) { return __awaiter(_this, void 0, void 0, function () {
     var chatObj;
     return __generator(this, function (_a) {
@@ -54,8 +55,35 @@ var saveChatMessage = function (user, msg) { return __awaiter(_this, void 0, voi
         }
     });
 }); };
+var log_user = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    var username, passowrd, userObj, error_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                username = req.body.username;
+                passowrd = req.body.password;
+                userObj = {
+                    username: username,
+                    passowrd: passowrd
+                };
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, service.logUser(userObj)];
+            case 2:
+                _a.sent();
+                res.sendFile((path.join(__dirname, '/../../public/chat.html')));
+                return [3 /*break*/, 4];
+            case 3:
+                error_1 = _a.sent();
+                res.send(error_1);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
 var signup_user = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var username, password, newUser, result, error_1;
+    var username, password, newUser, result, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -71,22 +99,19 @@ var signup_user = function (req, res) { return __awaiter(_this, void 0, void 0, 
                 return [4 /*yield*/, service.signupUser(newUser)];
             case 2:
                 result = _a.sent();
-                res.json({
-                    success: true,
-                    user: result
-                });
+                res.sendFile((path.join(__dirname, '/../../public/index.html')));
                 return [3 /*break*/, 4];
             case 3:
-                error_1 = _a.sent();
+                error_2 = _a.sent();
                 res.status(400)
                     .send({
                     success: false,
-                    message: error_1.code
+                    message: error_2.code
                 });
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
     });
 }); };
-module.exports = { signup_user: signup_user, saveChatMessage: saveChatMessage };
+module.exports = { signup_user: signup_user, log_user: log_user, saveChatMessage: saveChatMessage };
 //# sourceMappingURL=controller.js.map

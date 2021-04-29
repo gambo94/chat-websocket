@@ -1,4 +1,5 @@
 const service = require('../service/service');
+const path = require('path');
 import { Request, Response } from 'express'
 
 
@@ -11,6 +12,21 @@ const saveChatMessage = async (user, msg) => {
     await service.saveChatMessage(chatObj);
 }
 
+const log_user = async (req: Request, res: Response) => {
+    let username = req.body.username;
+    let passowrd = req.body.password;
+    let userObj = {
+        username,
+        passowrd
+    }
+    try {
+        await service.logUser(userObj);
+        res.sendFile((path.join(__dirname, '/../../public/chat.html')));
+    } catch (error) {
+        res.send(error);
+    }
+}
+
 const signup_user = async (req: Request, res: Response) => {
     let username = req.body.username;
     let password = req.body.password;
@@ -20,10 +36,7 @@ const signup_user = async (req: Request, res: Response) => {
     };
     try {
         const result = await service.signupUser(newUser)
-        res.json({
-            success: true,
-            user: result
-        })
+        res.sendFile((path.join(__dirname, '/../../public/index.html')));
     } catch (error) {
         res.status(400)
             .send({
@@ -33,4 +46,4 @@ const signup_user = async (req: Request, res: Response) => {
     }
 }
 
-module.exports = { signup_user, saveChatMessage }
+module.exports = { signup_user, log_user, saveChatMessage }

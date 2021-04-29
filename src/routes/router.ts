@@ -1,8 +1,14 @@
-// const { Router } = require('express');
-// const router = Router();
-// const controller = require('../controller/controller');
+const { Router } = require('express');
+const router = Router();
+const controller = require('../controller/controller');
 
-// router.post('/signup', controller.signup_user)
+// route that sign ups a user and redirects to login page
+router.post('/login', controller.signup_user);
+
+// route that logs in a user and redirects to the socket chat
+router.post('/chat', controller.log_user);
 
 
-// module.exports = router;
+
+
+module.exports = router;

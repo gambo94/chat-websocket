@@ -9,10 +9,20 @@ const signupUser = async (user) => {
     return await userRepo.save(userCreated);
 }
 
+const logUser = async (user) => {
+    console.log('aqui llego')
+    let name = user.username;
+    let pwd = user.password;
+    await getRepository(User)
+    .createQueryBuilder()
+    .where('username = :username OR password = :password', { username: name, password: pwd })
+    .getOneOrFail();
+}
+
 const saveChatMessage = async (chatObj) => {
     const msgRepo = getRepository(Message);
     const msgCreated = msgRepo.create(chatObj);
     return await msgRepo.save(msgCreated);
 }
 
-module.exports = { signupUser, saveChatMessage }
+module.exports = { signupUser, logUser, saveChatMessage }
