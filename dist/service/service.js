@@ -57,7 +57,6 @@ var logUser = function (user) { return __awaiter(_this, void 0, void 0, function
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                console.log('aqui llego');
                 name = user.username;
                 pwd = user.password;
                 return [4 /*yield*/, typeorm_1.getRepository(User_1.User)

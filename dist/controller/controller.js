@@ -62,6 +62,7 @@ var log_user = function (req, res) { return __awaiter(_this, void 0, void 0, fun
             case 0:
                 username = req.body.username;
                 passowrd = req.body.password;
+                console.log(req.body.room);
                 userObj = {
                     username: username,
                     passowrd: passowrd

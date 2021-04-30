@@ -15,6 +15,7 @@ const saveChatMessage = async (user, msg) => {
 const log_user = async (req: Request, res: Response) => {
     let username = req.body.username;
     let passowrd = req.body.password;
+    console.log(req.body.room)
     let userObj = {
         username,
         passowrd

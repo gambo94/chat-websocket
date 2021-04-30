@@ -33,7 +33,6 @@ app.use(routes);
 
 
 
-
 server.listen(app.get('port'), () => {
     // connecting to DB
     const connect = require('./config/dbConnect')();

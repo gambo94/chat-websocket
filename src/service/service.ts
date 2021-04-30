@@ -10,7 +10,6 @@ const signupUser = async (user) => {
 }
 
 const logUser = async (user) => {
-    console.log('aqui llego')
     let name = user.username;
     let pwd = user.password;
     await getRepository(User)
