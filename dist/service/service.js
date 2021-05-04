@@ -61,11 +61,9 @@ var logUser = function (user) { return __awaiter(_this, void 0, void 0, function
                 pwd = user.password;
                 return [4 /*yield*/, typeorm_1.getRepository(User_1.User)
                         .createQueryBuilder()
-                        .where('username = :username OR password = :password', { username: name, password: pwd })
+                        .where('username = :username AND password = :password', { username: name, password: pwd })
                         .getOneOrFail()];
-            case 1:
-                _a.sent();
-                return [2 /*return*/];
+            case 1: return [2 /*return*/, _a.sent()];
         }
     });
 }); };

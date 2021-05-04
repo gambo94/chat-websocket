@@ -12,19 +12,21 @@ const saveChatMessage = async (user, msg) => {
     await service.saveChatMessage(chatObj);
 }
 
-const log_user = async (req: Request, res: Response) => {
-    let username = req.body.username;
-    let passowrd = req.body.password;
-    console.log(req.body.room)
-    let userObj = {
-        username,
-        passowrd
-    }
+const log_user = async (userObj) => {
+
     try {
-        await service.logUser(userObj);
-        res.sendFile((path.join(__dirname, '/../../public/chat.html')));
+        // let username = req.body.username;
+        // let passowrd = req.body.password;
+        // let userObj = {
+        //     username,
+        //     passowrd
+        // }
+        let result = await service.logUser(userObj);
+        return result;
+        // res.sendFile((path.join(__dirname, '/../../public/chat.html')));
     } catch (error) {
-        res.send(error);
+        // res.sendFile((path.join(__dirname, '/../../public/index.html')));
+        return error;
     }
 }
 

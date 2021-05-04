@@ -9,8 +9,6 @@ const { username, password, room } = Qs.parse(location.search, {
 
 const socket = io();
 
-// Join chatroom
-socket.emit('joinRoom', { username, password, room });
 
 // Any message from server
 socket.on('message', message =>{
@@ -20,6 +18,8 @@ socket.on('message', message =>{
     // Scroll down
     chatMessages.scrollTop = chatMessages.scrollHeight;
 });
+
+
 
 // Message form submit
 chatForm.addEventListener('submit', (e) => {

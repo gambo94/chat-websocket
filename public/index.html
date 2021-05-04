@@ -19,7 +19,7 @@
 				<h1><i class="far fa-user"></i> NodeChat</h1>
 			</header>
 			<main class="join-main">
-				<form action="chat.html">
+				<form id='login' action="chat.html">
 					<div class="form-control">
 						<label for="username">Username</label>
 						<input
@@ -49,10 +49,13 @@
 							<option value="C#">General</option>
 						</select>
 					</div>
+					<div id="error"></div>
 					<div><a href="signup.html">Sign up</a></div>
 					<button type="submit" class="btn">Log in</button>
 				</form>
 			</main>
 		</div>
+	<script src="/socket.io/socket.io.js" charset="utf-8"></script>
+	<script src="/js/login.js" charset="utf-8"></script>
 	</body>
 </html>

@@ -55,31 +55,21 @@ var saveChatMessage = function (user, msg) { return __awaiter(_this, void 0, voi
         }
     });
 }); };
-var log_user = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var username, passowrd, userObj, error_1;
+var log_user = function (userObj) { return __awaiter(_this, void 0, void 0, function () {
+    var result, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                username = req.body.username;
-                passowrd = req.body.password;
-                console.log(req.body.room);
-                userObj = {
-                    username: username,
-                    passowrd: passowrd
-                };
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
+                _a.trys.push([0, 2, , 3]);
                 return [4 /*yield*/, service.logUser(userObj)];
+            case 1:
+                result = _a.sent();
+                return [2 /*return*/, result];
             case 2:
-                _a.sent();
-                res.sendFile((path.join(__dirname, '/../../public/chat.html')));
-                return [3 /*break*/, 4];
-            case 3:
                 error_1 = _a.sent();
-                res.send(error_1);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                // res.sendFile((path.join(__dirname, '/../../public/index.html')));
+                return [2 /*return*/, error_1];
+            case 3: return [2 /*return*/];
         }
     });
 }); };

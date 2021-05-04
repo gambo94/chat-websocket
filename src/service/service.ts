@@ -12,9 +12,9 @@ const signupUser = async (user) => {
 const logUser = async (user) => {
     let name = user.username;
     let pwd = user.password;
-    await getRepository(User)
+    return await getRepository(User)
     .createQueryBuilder()
-    .where('username = :username OR password = :password', { username: name, password: pwd })
+    .where('username = :username AND password = :password', { username: name, password: pwd })
     .getOneOrFail();
 }
 

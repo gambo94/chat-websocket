@@ -178,6 +178,10 @@ a {
 	width: 100%;
 }
 
+#error {
+	color: red;
+}
+
 @media (max-width: 700px) {
 	.chat-main {
 		display: block;
