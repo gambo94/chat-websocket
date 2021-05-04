@@ -9,13 +9,32 @@ const signupUser = async (user) => {
     return await userRepo.save(userCreated);
 }
 
+const getUsers = async () => {
+    let users = await getRepository(User)
+    .createQueryBuilder()
+    .getMany();
+    return users;
+}
+
+const userExists = async (username) => {
+    let exists = await getRepository(User)
+    .createQueryBuilder()
+    .where('username = :username', { username: username })
+    .getOne();
+    console.log(exists)
+    return exists;
+}
+
 const logUser = async (user) => {
     let name = user.username;
     let pwd = user.password;
-    return await getRepository(User)
+    console.log('from service', name)
+    let result =  await getRepository(User)
     .createQueryBuilder()
-    .where('username = :username AND password = :password', { username: name, password: pwd })
-    .getOneOrFail();
+    .where('user.username = :username', { username: name})
+    .andWhere('user.password = :password', {password: pwd})
+    .getOne();
+    console.log(result)
 }
 
 const saveChatMessage = async (chatObj) => {
@@ -24,4 +43,4 @@ const saveChatMessage = async (chatObj) => {
     return await msgRepo.save(msgCreated);
 }
 
-module.exports = { signupUser, logUser, saveChatMessage }
+module.exports = { userExists, getUsers, signupUser, logUser, saveChatMessage }

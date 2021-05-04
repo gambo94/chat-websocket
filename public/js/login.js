@@ -21,19 +21,19 @@ loginForm.addEventListener('submit', (e) => {
     let room = roomEl.value;
     // tells server to check login
     let userObj = { username, password, room }
-    socket.emit('login', userObj);
+    emit
 })
 
-socket.on('logged', (msg) => {
-    console.log(msg);
-    window.location= 'http://localhost:3000/chat.html'
-})
+// socket.on('logged', (msg) => {
+//     console.log(msg);
+//     window.location= 'http://localhost:3000/chat.html'
+// })
 
-socket.on('not auth', (msg) => {
-    console.log(msg);
-    console.log('troia');
-    divError.appendChild(para);
-    username.value ='';
-    password.value = '';
-    room.value = '';
-})
+// socket.on('not auth', (msg) => {
+//     console.log(msg);
+//     console.log('troia');
+//     divError.appendChild(para);
+//     username.value ='';
+//     password.value = '';
+//     room.value = '';
+// })

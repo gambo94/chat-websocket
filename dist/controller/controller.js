@@ -55,54 +55,59 @@ var saveChatMessage = function (user, msg) { return __awaiter(_this, void 0, voi
         }
     });
 }); };
-var log_user = function (userObj) { return __awaiter(_this, void 0, void 0, function () {
-    var result, error_1;
+var user_exists = function (username) { return __awaiter(_this, void 0, void 0, function () {
+    var exists, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, service.logUser(userObj)];
+                return [4 /*yield*/, service.userExists(username)];
             case 1:
-                result = _a.sent();
-                return [2 /*return*/, result];
+                exists = _a.sent();
+                return [2 /*return*/, exists];
             case 2:
                 error_1 = _a.sent();
-                // res.sendFile((path.join(__dirname, '/../../public/index.html')));
-                return [2 /*return*/, error_1];
+                console.log('erroooooorrrrr', error_1);
+                return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
-var signup_user = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var username, password, newUser, result, error_2;
+var get_users = function () { return __awaiter(_this, void 0, void 0, function () {
+    var users, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                username = req.body.username;
-                password = req.body.password;
-                newUser = {
-                    username: username,
-                    password: password
-                };
-                _a.label = 1;
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, service.getUsers()];
             case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, service.signupUser(newUser)];
+                users = _a.sent();
+                return [2 /*return*/, users];
             case 2:
-                result = _a.sent();
-                res.sendFile((path.join(__dirname, '/../../public/index.html')));
-                return [3 /*break*/, 4];
-            case 3:
                 error_2 = _a.sent();
-                res.status(400)
-                    .send({
-                    success: false,
-                    message: error_2.code
-                });
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                console.log('error', error_2);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
-module.exports = { signup_user: signup_user, log_user: log_user, saveChatMessage: saveChatMessage };
+var signup_user = function (username, password) { return __awaiter(_this, void 0, void 0, function () {
+    var user, result, error_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                user = { username: username, password: password };
+                return [4 /*yield*/, service.signupUser(user)];
+            case 1:
+                result = _a.sent();
+                return [2 /*return*/, result];
+            case 2:
+                error_3 = _a.sent();
+                return [2 /*return*/];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+module.exports = { user_exists: user_exists, get_users: get_users, signup_user: signup_user, saveChatMessage: saveChatMessage };
 //# sourceMappingURL=controller.js.map

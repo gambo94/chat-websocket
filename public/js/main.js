@@ -1,29 +1,46 @@
-// HTML elements
+// HTML chat elements
 const chatForm = document.getElementById('chat-form');
 const chatMessages = document.querySelector('.chat-messages');
+const ulUsers = document.getElementById('users');
+// Main DIVs
+const loginDiv = document.getElementById('login');
+const chatDiv = document.getElementById('chat');
 
-// Get username and roomf from URL
-const { username, password, room } = Qs.parse(location.search, {
-    ignoreQueryPrefix: true
-});
+// Login form and data
+const loginForm = document.getElementById('loginForm');
+let username = document.getElementById('username');
+let password = document.getElementById('password');
+let room = document.getElementById('room');
+let error = document.getElementById('error');
+
+
 
 const socket = io();
 
-
-// Any message from server
-socket.on('message', message =>{
-    console.log(message); // logs in frontend console
-    outputMessage(message);
-
-    // Scroll down
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-});
-
-
+// Login form submit
+loginForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // it prevents page refresh
+    let userObject = {
+        username: username.value,
+        password: password.value,
+        room: room.value
+        
+    }
+    socket.emit('new user', userObject, function(data){
+        if(data) {
+            loginDiv.style.display = 'none';
+            chatDiv.style.display = 'block';
+        } else {
+            error.innerHTML = 'This username already exists';
+        }
+        username.value = '';
+        password.value = '';
+    });
+})
 
 // Message form submit
 chatForm.addEventListener('submit', (e) => {
-    e.preventDefault(); // it preventes page refresh
+    e.preventDefault(); // it prevents page refresh
 
     // get the text from client
     let msgInput = document.getElementById('msg');
@@ -35,6 +52,29 @@ chatForm.addEventListener('submit', (e) => {
     msgInput.value ='';
     msgInput.focus();
 })
+
+// receives all users from server and inserts names on html
+socket.on('loadUsers', users => {
+    ulUsers.innerHTML = '';
+    // creates li for every user existing in DB
+    users.forEach(users => {
+        let li = document.createElement("li");
+        li.appendChild(document.createTextNode(`${users.username}`));
+        ulUsers.appendChild(li);
+    });
+})
+
+// Any message from server
+socket.on('message', message =>{
+    console.log(message); // logs in frontend console
+    outputMessage(message); 
+    // Scroll down
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+});
+
+
+
+
 
 
 // Output message to DOM

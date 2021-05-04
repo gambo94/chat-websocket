@@ -40,26 +40,41 @@ module.exports = function (io) {
     // events
     io.on('connection', function (socket) {
         // Join event
-        socket.on('login', function (userObj) { return __awaiter(_this, void 0, void 0, function () {
-            var user;
+        socket.on('new user', function (userObj, cb) { return __awaiter(_this, void 0, void 0, function () {
+            var username, password, room, exists, users;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, control.log_user(userObj)];
+                    case 0:
+                        username = userObj.username;
+                        password = userObj.password;
+                        room = userObj.room;
+                        return [4 /*yield*/, control.user_exists(username)];
                     case 1:
-                        user = _a.sent();
-                        if (user.username !== userObj.username || user.password !== userObj.password) {
-                            return [2 /*return*/, socket.emit('not auth', ('user and password dont correspond'))];
-                        }
-                        socket.emit('logged', ('authed'));
-                        socket.join(userObj.room);
+                        exists = _a.sent();
+                        console.log('if undefined creates user', exists);
+                        if (exists !== undefined)
+                            return [2 /*return*/, cb(false)];
+                        cb(true);
+                        socket.username = username;
+                        // create user
+                        return [4 /*yield*/, control.signup_user(username, password)];
+                    case 2:
+                        // create user
+                        _a.sent();
+                        return [4 /*yield*/, control.get_users()];
+                    case 3:
+                        users = _a.sent();
+                        io.sockets.emit('loadUsers', users);
                         // load chat room
                         // Welcome current user (Sends a message to the single client)
                         socket.emit('message', msgToObj('Bot', 'Welcome to the chat'));
                         // Broadcast when a user connects (notifies everybody but the not the current client)
-                        socket.broadcast.to(user.room).emit('message', msgToObj('Bot', userObj.username + " has joined the chat"));
+                        socket.broadcast.emit('message', msgToObj('Bot', username + " has joined the chat"));
                         // Runs when client disconnects, notifies all clients
-                        socket.on('disconnect', function () {
-                            io.emit('message', msgToObj('Bot', userObj.username + " has left the chat"));
+                        socket.on('disconnect', function (data) {
+                            if (!socket.username)
+                                return;
+                            io.emit('message', msgToObj('Bot', username + " has left the chat"));
                         });
                         return [2 /*return*/];
                 }

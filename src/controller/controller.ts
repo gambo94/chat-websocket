@@ -12,41 +12,33 @@ const saveChatMessage = async (user, msg) => {
     await service.saveChatMessage(chatObj);
 }
 
-const log_user = async (userObj) => {
-
+const user_exists = async (username) => {
     try {
-        // let username = req.body.username;
-        // let passowrd = req.body.password;
-        // let userObj = {
-        //     username,
-        //     passowrd
-        // }
-        let result = await service.logUser(userObj);
+        let exists = await service.userExists(username);
+        return exists;
+    } catch (error) {
+        console.log('erroooooorrrrr', error);
+        
+    }
+}
+
+const get_users = async () => {
+    try {
+        let users = await service.getUsers();
+        return users;
+    } catch (error) {
+        console.log('error', error)
+    }
+}
+
+const signup_user = async (username, password) => {
+    try {
+        let user = { username, password }
+        const result = await service.signupUser(user);
         return result;
-        // res.sendFile((path.join(__dirname, '/../../public/chat.html')));
     } catch (error) {
-        // res.sendFile((path.join(__dirname, '/../../public/index.html')));
-        return error;
-    }
+        return;
+    }  
 }
 
-const signup_user = async (req: Request, res: Response) => {
-    let username = req.body.username;
-    let password = req.body.password;
-    let newUser = { 
-        username, 
-        password
-    };
-    try {
-        const result = await service.signupUser(newUser)
-        res.sendFile((path.join(__dirname, '/../../public/index.html')));
-    } catch (error) {
-        res.status(400)
-            .send({
-                success: false,
-                message: error.code
-            })
-    }
-}
-
-module.exports = { signup_user, log_user, saveChatMessage }
+module.exports = { user_exists, get_users, signup_user, saveChatMessage }

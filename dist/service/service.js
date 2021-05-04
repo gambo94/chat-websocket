@@ -52,18 +52,51 @@ var signupUser = function (user) { return __awaiter(_this, void 0, void 0, funct
         }
     });
 }); };
+var getUsers = function () { return __awaiter(_this, void 0, void 0, function () {
+    var users;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(User_1.User)
+                    .createQueryBuilder()
+                    .getMany()];
+            case 1:
+                users = _a.sent();
+                return [2 /*return*/, users];
+        }
+    });
+}); };
+var userExists = function (username) { return __awaiter(_this, void 0, void 0, function () {
+    var exists;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(User_1.User)
+                    .createQueryBuilder()
+                    .where('username = :username', { username: username })
+                    .getOne()];
+            case 1:
+                exists = _a.sent();
+                console.log(exists);
+                return [2 /*return*/, exists];
+        }
+    });
+}); };
 var logUser = function (user) { return __awaiter(_this, void 0, void 0, function () {
-    var name, pwd;
+    var name, pwd, result;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 name = user.username;
                 pwd = user.password;
+                console.log('from service', name);
                 return [4 /*yield*/, typeorm_1.getRepository(User_1.User)
                         .createQueryBuilder()
-                        .where('username = :username AND password = :password', { username: name, password: pwd })
-                        .getOneOrFail()];
-            case 1: return [2 /*return*/, _a.sent()];
+                        .where('user.username = :username', { username: name })
+                        .andWhere('user.password = :password', { password: pwd })
+                        .getOne()];
+            case 1:
+                result = _a.sent();
+                console.log(result);
+                return [2 /*return*/];
         }
     });
 }); };
@@ -79,5 +112,5 @@ var saveChatMessage = function (chatObj) { return __awaiter(_this, void 0, void 
         }
     });
 }); };
-module.exports = { signupUser: signupUser, logUser: logUser, saveChatMessage: saveChatMessage };
+module.exports = { userExists: userExists, getUsers: getUsers, signupUser: signupUser, logUser: logUser, saveChatMessage: saveChatMessage };
 //# sourceMappingURL=service.js.map
