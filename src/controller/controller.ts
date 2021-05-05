@@ -3,13 +3,27 @@ const path = require('path');
 import { Request, Response } from 'express'
 
 
-const saveChatMessage = async (user, msg) => {
-    console.log('from controller', user, msg);
-    let chatObj = {
-        username: user,
-        message_content: msg,
+const saveChatMessage = async (room, user, msg) => {
+    try {
+        console.log('from controller', room, user, msg);
+        let chatObj = {
+            room,
+            username: user,
+            message_content: msg,
+        }
+        await service.saveChatMessage(chatObj);
+    } catch (error) {
+        console.log(error);
     }
-    await service.saveChatMessage(chatObj);
+}
+
+const get_messages = async (room) => {
+    try {
+        let messages = await service.getMessages(room);
+        return messages;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 const user_exists = async (username) => {
@@ -18,7 +32,6 @@ const user_exists = async (username) => {
         return exists;
     } catch (error) {
         console.log('erroooooorrrrr', error);
-        
     }
 }
 
@@ -41,4 +54,5 @@ const signup_user = async (username, password) => {
     }  
 }
 
-module.exports = { user_exists, get_users, signup_user, saveChatMessage }
+module.exports = { user_exists, get_users, signup_user, 
+    saveChatMessage, get_messages }

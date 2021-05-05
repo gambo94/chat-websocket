@@ -38,25 +38,50 @@ var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var service = require('../service/service');
 var path = require('path');
-var saveChatMessage = function (user, msg) { return __awaiter(_this, void 0, void 0, function () {
-    var chatObj;
+var saveChatMessage = function (room, user, msg) { return __awaiter(_this, void 0, void 0, function () {
+    var chatObj, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                console.log('from controller', user, msg);
+                _a.trys.push([0, 2, , 3]);
+                console.log('from controller', room, user, msg);
                 chatObj = {
+                    room: room,
                     username: user,
                     message_content: msg,
                 };
                 return [4 /*yield*/, service.saveChatMessage(chatObj)];
             case 1:
                 _a.sent();
-                return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 2:
+                error_1 = _a.sent();
+                console.log(error_1);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+var get_messages = function (room) { return __awaiter(_this, void 0, void 0, function () {
+    var messages, error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, service.getMessages(room)];
+            case 1:
+                messages = _a.sent();
+                return [2 /*return*/, messages];
+            case 2:
+                error_2 = _a.sent();
+                console.log(error_2);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
 var user_exists = function (username) { return __awaiter(_this, void 0, void 0, function () {
-    var exists, error_1;
+    var exists, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -66,15 +91,15 @@ var user_exists = function (username) { return __awaiter(_this, void 0, void 0, 
                 exists = _a.sent();
                 return [2 /*return*/, exists];
             case 2:
-                error_1 = _a.sent();
-                console.log('erroooooorrrrr', error_1);
+                error_3 = _a.sent();
+                console.log('erroooooorrrrr', error_3);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 var get_users = function () { return __awaiter(_this, void 0, void 0, function () {
-    var users, error_2;
+    var users, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -84,15 +109,15 @@ var get_users = function () { return __awaiter(_this, void 0, void 0, function (
                 users = _a.sent();
                 return [2 /*return*/, users];
             case 2:
-                error_2 = _a.sent();
-                console.log('error', error_2);
+                error_4 = _a.sent();
+                console.log('error', error_4);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 var signup_user = function (username, password) { return __awaiter(_this, void 0, void 0, function () {
-    var user, result, error_3;
+    var user, result, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -103,11 +128,12 @@ var signup_user = function (username, password) { return __awaiter(_this, void 0
                 result = _a.sent();
                 return [2 /*return*/, result];
             case 2:
-                error_3 = _a.sent();
+                error_5 = _a.sent();
                 return [2 /*return*/];
             case 3: return [2 /*return*/];
         }
     });
 }); };
-module.exports = { user_exists: user_exists, get_users: get_users, signup_user: signup_user, saveChatMessage: saveChatMessage };
+module.exports = { user_exists: user_exists, get_users: get_users, signup_user: signup_user,
+    saveChatMessage: saveChatMessage, get_messages: get_messages };
 //# sourceMappingURL=controller.js.map

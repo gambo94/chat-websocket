@@ -43,4 +43,12 @@ const saveChatMessage = async (chatObj) => {
     return await msgRepo.save(msgCreated);
 }
 
-module.exports = { userExists, getUsers, signupUser, logUser, saveChatMessage }
+const getMessages = async (room) => {
+    const msgs = await getRepository(Message)
+    .createQueryBuilder()
+    .getMany()
+    return msgs;
+}
+
+module.exports = { userExists, getUsers, signupUser, logUser, 
+    saveChatMessage, getMessages }

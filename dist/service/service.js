@@ -112,5 +112,19 @@ var saveChatMessage = function (chatObj) { return __awaiter(_this, void 0, void 
         }
     });
 }); };
-module.exports = { userExists: userExists, getUsers: getUsers, signupUser: signupUser, logUser: logUser, saveChatMessage: saveChatMessage };
+var getMessages = function (room) { return __awaiter(_this, void 0, void 0, function () {
+    var msgs;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Message_1.Message)
+                    .createQueryBuilder()
+                    .getMany()];
+            case 1:
+                msgs = _a.sent();
+                return [2 /*return*/, msgs];
+        }
+    });
+}); };
+module.exports = { userExists: userExists, getUsers: getUsers, signupUser: signupUser, logUser: logUser,
+    saveChatMessage: saveChatMessage, getMessages: getMessages };
 //# sourceMappingURL=service.js.map

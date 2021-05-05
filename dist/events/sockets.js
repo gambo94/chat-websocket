@@ -41,7 +41,8 @@ module.exports = function (io) {
     io.on('connection', function (socket) {
         // Join event
         socket.on('new user', function (userObj, cb) { return __awaiter(_this, void 0, void 0, function () {
-            var username, password, room, exists, users;
+            var username, password, room, exists, users, msgs;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -56,20 +57,38 @@ module.exports = function (io) {
                             return [2 /*return*/, cb(false)];
                         cb(true);
                         socket.username = username;
-                        // create user
+                        // creates user and storing into DB
                         return [4 /*yield*/, control.signup_user(username, password)];
                     case 2:
-                        // create user
+                        // creates user and storing into DB
                         _a.sent();
                         return [4 /*yield*/, control.get_users()];
                     case 3:
                         users = _a.sent();
                         io.sockets.emit('loadUsers', users);
-                        // load chat room
+                        return [4 /*yield*/, control.get_messages(room)];
+                    case 4:
+                        msgs = _a.sent();
+                        console.log(msgs);
                         // Welcome current user (Sends a message to the single client)
                         socket.emit('message', msgToObj('Bot', 'Welcome to the chat'));
                         // Broadcast when a user connects (notifies everybody but the not the current client)
                         socket.broadcast.emit('message', msgToObj('Bot', username + " has joined the chat"));
+                        // Listen for chatMessage
+                        socket.on('chatMessage', function (msg) { return __awaiter(_this, void 0, void 0, function () {
+                            var result;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4 /*yield*/, control.saveChatMessage(room, socket.username, msg)];
+                                    case 1:
+                                        result = _a.sent();
+                                        console.log('result of saving message in socket', result);
+                                        // emits to everybody
+                                        io.sockets.emit('message', msgToObj(socket.username, msg));
+                                        return [2 /*return*/];
+                                }
+                            });
+                        }); });
                         // Runs when client disconnects, notifies all clients
                         socket.on('disconnect', function (data) {
                             if (!socket.username)
@@ -80,11 +99,6 @@ module.exports = function (io) {
                 }
             });
         }); });
-        // Listen for chatMessage
-        socket.on('chatMessage', function (msg) {
-            // emits to everybody
-            io.emit('message', msgToObj('USER', msg));
-        });
     });
 };
 //# sourceMappingURL=sockets.js.map

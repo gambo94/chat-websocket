@@ -20,6 +20,10 @@ var Message = /** @class */ (function () {
     __decorate([
         typeorm_1.Column(),
         __metadata("design:type", String)
+    ], Message.prototype, "room", void 0);
+    __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", String)
     ], Message.prototype, "username", void 0);
     __decorate([
         typeorm_1.Column(),

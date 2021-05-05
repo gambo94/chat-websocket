@@ -8,6 +8,9 @@ export class Message {
     id: number;
 
     @Column()
+    room: string;
+
+    @Column()
     username: string;
 
     @Column()
