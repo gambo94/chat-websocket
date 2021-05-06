@@ -28,10 +28,11 @@ module.exports = (io) => {
 
                 // gets all room's messages and passing them to front
                 let msgs = await control.get_messages(room);
+                io.sockets.emit('conversation', msgs);
                 console.log(msgs);
 
                 // Welcome current user (Sends a message to the single client)
-                socket.emit('message', msgToObj('Bot', 'Welcome to the chat'));
+                socket.emit('message', msgToObj('Bot', `Welcome to the chat, ${socket.username}`));
                 
                 // Broadcast when a user connects (notifies everybody but the not the current client)
                 socket.broadcast.emit('message', msgToObj('Bot', `${username} has joined the chat`));

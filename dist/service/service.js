@@ -40,6 +40,7 @@ require("reflect-metadata");
 var User_1 = require("../entity/User");
 var Message_1 = require("../entity/Message");
 var typeorm_1 = require("typeorm");
+var dataConverter = require('../helpers/dateConversion');
 var signupUser = function (user) { return __awaiter(_this, void 0, void 0, function () {
     var userRepo, userCreated;
     return __generator(this, function (_a) {
@@ -75,7 +76,6 @@ var userExists = function (username) { return __awaiter(_this, void 0, void 0, f
                     .getOne()];
             case 1:
                 exists = _a.sent();
-                console.log(exists);
                 return [2 /*return*/, exists];
         }
     });
@@ -95,7 +95,7 @@ var logUser = function (user) { return __awaiter(_this, void 0, void 0, function
                         .getOne()];
             case 1:
                 result = _a.sent();
-                console.log(result);
+                console.log('loguser', result);
                 return [2 /*return*/];
         }
     });
@@ -113,15 +113,17 @@ var saveChatMessage = function (chatObj) { return __awaiter(_this, void 0, void 
     });
 }); };
 var getMessages = function (room) { return __awaiter(_this, void 0, void 0, function () {
-    var msgs;
+    var msgs, dateToString;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, typeorm_1.getRepository(Message_1.Message)
-                    .createQueryBuilder()
-                    .getMany()];
+                    .query("\n        SELECT id, username, message_content, room, message_date\n        FROM message\n        ORDER BY message_date;\n    ")];
             case 1:
                 msgs = _a.sent();
-                return [2 /*return*/, msgs];
+                return [4 /*yield*/, dataConverter(msgs)];
+            case 2:
+                dateToString = _a.sent();
+                return [2 /*return*/, dateToString];
         }
     });
 }); };

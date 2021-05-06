@@ -2,6 +2,7 @@ import "reflect-metadata";
 import {User} from "../entity/User";
 import {Message} from "../entity/Message";
 import { getRepository } from "typeorm";
+const dataConverter = require('../helpers/dateConversion')
 
 const signupUser = async (user) => {
     const userRepo = getRepository(User);
@@ -21,7 +22,6 @@ const userExists = async (username) => {
     .createQueryBuilder()
     .where('username = :username', { username: username })
     .getOne();
-    console.log(exists)
     return exists;
 }
 
@@ -34,7 +34,7 @@ const logUser = async (user) => {
     .where('user.username = :username', { username: name})
     .andWhere('user.password = :password', {password: pwd})
     .getOne();
-    console.log(result)
+    console.log('loguser',result)
 }
 
 const saveChatMessage = async (chatObj) => {
@@ -45,9 +45,13 @@ const saveChatMessage = async (chatObj) => {
 
 const getMessages = async (room) => {
     const msgs = await getRepository(Message)
-    .createQueryBuilder()
-    .getMany()
-    return msgs;
+    .query(`
+        SELECT id, username, message_content, room, message_date
+        FROM message
+        ORDER BY message_date;
+    `)
+    const dateToString = await dataConverter(msgs);
+    return dateToString;
 }
 
 module.exports = { userExists, getUsers, signupUser, logUser, 

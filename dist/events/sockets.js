@@ -69,9 +69,10 @@ module.exports = function (io) {
                         return [4 /*yield*/, control.get_messages(room)];
                     case 4:
                         msgs = _a.sent();
+                        io.sockets.emit('conversation', msgs);
                         console.log(msgs);
                         // Welcome current user (Sends a message to the single client)
-                        socket.emit('message', msgToObj('Bot', 'Welcome to the chat'));
+                        socket.emit('message', msgToObj('Bot', "Welcome to the chat, " + socket.username));
                         // Broadcast when a user connects (notifies everybody but the not the current client)
                         socket.broadcast.emit('message', msgToObj('Bot', username + " has joined the chat"));
                         // Listen for chatMessage

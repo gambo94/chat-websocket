@@ -44,16 +44,13 @@ var saveChatMessage = function (room, user, msg) { return __awaiter(_this, void 
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                console.log('from controller', room, user, msg);
                 chatObj = {
                     room: room,
                     username: user,
                     message_content: msg,
                 };
                 return [4 /*yield*/, service.saveChatMessage(chatObj)];
-            case 1:
-                _a.sent();
-                return [3 /*break*/, 3];
+            case 1: return [2 /*return*/, _a.sent()];
             case 2:
                 error_1 = _a.sent();
                 console.log(error_1);

@@ -5,13 +5,12 @@ import { Request, Response } from 'express'
 
 const saveChatMessage = async (room, user, msg) => {
     try {
-        console.log('from controller', room, user, msg);
         let chatObj = {
             room,
             username: user,
             message_content: msg,
         }
-        await service.saveChatMessage(chatObj);
+        return await service.saveChatMessage(chatObj);
     } catch (error) {
         console.log(error);
     }
