@@ -29,12 +29,12 @@ module.exports = (io) => {
                 // creates user and storing into DB
                 cb(true);
                 socket.username = username;
-                await control.signup_user(username, password);
+                await control.signup_user(room, username, password);
                 socket.join(room);
 
                 // get all users from db and passing them to front
-                let users = await control.get_users();
-                socket.emit('loadUsers', users);
+                let users = await control.get_users(room);
+                io.to(room).emit('loadUsers', users);
 
 
                 // gets all room's messages and passing them to front

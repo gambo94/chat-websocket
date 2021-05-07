@@ -59,14 +59,14 @@ module.exports = function (io) {
                         // creates user and storing into DB
                         cb(true);
                         socket.username = username;
-                        return [4 /*yield*/, control.signup_user(username, password)];
+                        return [4 /*yield*/, control.signup_user(room, username, password)];
                     case 2:
                         _a.sent();
                         socket.join(room);
-                        return [4 /*yield*/, control.get_users()];
+                        return [4 /*yield*/, control.get_users(room)];
                     case 3:
                         users = _a.sent();
-                        socket.emit('loadUsers', users);
+                        io.to(room).emit('loadUsers', users);
                         return [4 /*yield*/, control.get_messages(room)];
                     case 4:
                         msgs = _a.sent();

@@ -53,13 +53,12 @@ var signupUser = function (user) { return __awaiter(_this, void 0, void 0, funct
         }
     });
 }); };
-var getUsers = function () { return __awaiter(_this, void 0, void 0, function () {
+var getUsers = function (room) { return __awaiter(_this, void 0, void 0, function () {
     var users;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, typeorm_1.getRepository(User_1.User)
-                    .createQueryBuilder()
-                    .getMany()];
+                    .query("\n        SELECT username\n        FROM user\n        WHERE room = '" + room + "'\n    ")];
             case 1:
                 users = _a.sent();
                 return [2 /*return*/, users];

@@ -10,10 +10,13 @@ const signupUser = async (user) => {
     return await userRepo.save(userCreated);
 }
 
-const getUsers = async () => {
+const getUsers = async (room) => {
     let users = await getRepository(User)
-    .createQueryBuilder()
-    .getMany();
+    .query(`
+        SELECT username
+        FROM user
+        WHERE room = '${room}'
+    `)
     return users;
 }
 

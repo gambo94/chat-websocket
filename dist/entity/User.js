@@ -18,6 +18,10 @@ var User = /** @class */ (function () {
         __metadata("design:type", Number)
     ], User.prototype, "id", void 0);
     __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], User.prototype, "room", void 0);
+    __decorate([
         typeorm_1.Column({ unique: true }),
         __metadata("design:type", String)
     ], User.prototype, "username", void 0);

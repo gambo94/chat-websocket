@@ -34,22 +34,22 @@ const user_exists = async (username) => {
     }
 }
 
-const get_users = async () => {
+const get_users = async (room) => {
     try {
-        let users = await service.getUsers();
+        let users = await service.getUsers(room);
         return users;
     } catch (error) {
         console.log('error', error)
     }
 }
 
-const signup_user = async (username, password) => {
+const signup_user = async ( room, username, password) => {
     try {
-        let user = { username, password }
+        let user = { room, username, password }
         const result = await service.signupUser(user);
         return result;
     } catch (error) {
-        return;
+        return error;
     }  
 }
 

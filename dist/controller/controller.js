@@ -95,13 +95,13 @@ var user_exists = function (username) { return __awaiter(_this, void 0, void 0, 
         }
     });
 }); };
-var get_users = function () { return __awaiter(_this, void 0, void 0, function () {
+var get_users = function (room) { return __awaiter(_this, void 0, void 0, function () {
     var users, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, service.getUsers()];
+                return [4 /*yield*/, service.getUsers(room)];
             case 1:
                 users = _a.sent();
                 return [2 /*return*/, users];
@@ -113,20 +113,20 @@ var get_users = function () { return __awaiter(_this, void 0, void 0, function (
         }
     });
 }); };
-var signup_user = function (username, password) { return __awaiter(_this, void 0, void 0, function () {
+var signup_user = function (room, username, password) { return __awaiter(_this, void 0, void 0, function () {
     var user, result, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                user = { username: username, password: password };
+                user = { room: room, username: username, password: password };
                 return [4 /*yield*/, service.signupUser(user)];
             case 1:
                 result = _a.sent();
                 return [2 /*return*/, result];
             case 2:
                 error_5 = _a.sent();
-                return [2 /*return*/];
+                return [2 /*return*/, error_5];
             case 3: return [2 /*return*/];
         }
     });
