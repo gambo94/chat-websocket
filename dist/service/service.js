@@ -117,7 +117,7 @@ var getMessages = function (room) { return __awaiter(_this, void 0, void 0, func
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, typeorm_1.getRepository(Message_1.Message)
-                    .query("\n        SELECT id, username, message_content, room, message_date\n        FROM message\n        ORDER BY message_date;\n    ")];
+                    .query("\n        SELECT id, username, message_content, room, message_date\n        FROM message\n        WHERE room = '" + room + "'\n        ORDER BY message_date;\n    ")];
             case 1:
                 msgs = _a.sent();
                 return [4 /*yield*/, dataConverter(msgs)];

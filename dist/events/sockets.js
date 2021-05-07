@@ -39,7 +39,7 @@ var control = require('../controller/controller');
 module.exports = function (io) {
     // events
     io.on('connection', function (socket) {
-        // Join event
+        // New user event
         socket.on('new user', function (userObj, cb) { return __awaiter(_this, void 0, void 0, function () {
             var username, password, room, exists, users, msgs;
             var _this = this;
@@ -62,19 +62,20 @@ module.exports = function (io) {
                         return [4 /*yield*/, control.signup_user(username, password)];
                     case 2:
                         _a.sent();
+                        socket.join(room);
                         return [4 /*yield*/, control.get_users()];
                     case 3:
                         users = _a.sent();
-                        io.sockets.emit('loadUsers', users);
+                        socket.emit('loadUsers', users);
                         return [4 /*yield*/, control.get_messages(room)];
                     case 4:
                         msgs = _a.sent();
-                        io.sockets.emit('conversation', msgs);
-                        console.log(msgs);
+                        socket.emit('conversation', msgs);
+                        console.log('messages from server', msgs);
                         // Welcome current user (Sends a message to the single client)
                         socket.emit('message', msgToObj('Bot', "Welcome to the chat, " + socket.username));
                         // Broadcast when a user connects (notifies everybody but the not the current client)
-                        socket.broadcast.emit('message', msgToObj('Bot', username + " has joined the chat"));
+                        socket.broadcast.to(room).emit('message', msgToObj('Bot', username + " has joined the chat"));
                         // Listen for chatMessage
                         socket.on('chatMessage', function (msg) { return __awaiter(_this, void 0, void 0, function () {
                             var result;
@@ -85,7 +86,8 @@ module.exports = function (io) {
                                         result = _a.sent();
                                         console.log('result of saving message in socket', result);
                                         // emits to everybody
-                                        io.sockets.emit('message', msgToObj(socket.username, msg));
+                                        console.log('from chatmessage', socket.username);
+                                        io.to(room).emit('message', msgToObj(socket.username, msg));
                                         return [2 /*return*/];
                                 }
                             });
@@ -94,7 +96,7 @@ module.exports = function (io) {
                         socket.on('disconnect', function (data) {
                             if (!socket.username)
                                 return;
-                            io.emit('message', msgToObj('Bot', username + " has left the chat"));
+                            io.to(room).emit('message', msgToObj('Bot', username + " has left the chat"));
                         });
                         return [2 /*return*/];
                 }

@@ -48,6 +48,7 @@ const getMessages = async (room) => {
     .query(`
         SELECT id, username, message_content, room, message_date
         FROM message
+        WHERE room = '${room}'
         ORDER BY message_date;
     `)
     const dateToString = await dataConverter(msgs);

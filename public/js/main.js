@@ -25,7 +25,6 @@ loginForm.addEventListener('submit', (e) => {
         username: username.value,
         password: password.value,
         room: room.value
-        
     }
     socket.emit('new user', userObject, function(data){
         if(data) {
