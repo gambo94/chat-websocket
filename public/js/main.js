@@ -2,6 +2,7 @@
 const chatForm = document.getElementById('chat-form');
 const chatMessages = document.querySelector('.chat-messages');
 const ulUsers = document.getElementById('users');
+const roomName = document.getElementById('room-name');
 // Main DIVs
 const loginDiv = document.getElementById('login');
 const chatDiv = document.getElementById('chat');

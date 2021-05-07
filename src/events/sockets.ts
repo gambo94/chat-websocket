@@ -10,21 +10,29 @@ module.exports = (io) => {
             // Join event
             socket.on('new user', async (userObj, cb) =>{
 
-                // check if user exist
+                // creating obj from front data
                 let username = userObj.username;
                 let password = userObj.password;
                 let room = userObj.room;
+
+                // check if user exists in DB
                 let exists = await control.user_exists(username);
                 console.log('if undefined creates user',exists)
+
+                // if user exists, front will display error
                 if(exists !== undefined) return cb(false);
+
+                // creates user and storing into DB
                 cb(true);
                 socket.username = username;
-                // creates user and storing into DB
                 await control.signup_user(username, password);
 
                 // get all users from db and passing them to front
                 let users = await control.get_users();
-                io.sockets.emit('loadUsers', users)
+                io.sockets.emit('loadUsers', users);
+
+                // selecting room
+
 
                 // gets all room's messages and passing them to front
                 let msgs = await control.get_messages(room);

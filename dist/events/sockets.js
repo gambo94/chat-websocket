@@ -53,14 +53,14 @@ module.exports = function (io) {
                     case 1:
                         exists = _a.sent();
                         console.log('if undefined creates user', exists);
+                        // if user exists, front will display error
                         if (exists !== undefined)
                             return [2 /*return*/, cb(false)];
+                        // creates user and storing into DB
                         cb(true);
                         socket.username = username;
-                        // creates user and storing into DB
                         return [4 /*yield*/, control.signup_user(username, password)];
                     case 2:
-                        // creates user and storing into DB
                         _a.sent();
                         return [4 /*yield*/, control.get_users()];
                     case 3:
