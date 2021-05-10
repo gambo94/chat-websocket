@@ -71,7 +71,6 @@ module.exports = function (io) {
                     case 4:
                         msgs = _a.sent();
                         socket.emit('conversation', msgs);
-                        console.log('messages from server', msgs);
                         // Welcome current user (Sends a message to the single client)
                         socket.emit('message', msgToObj('Bot', "Welcome to the chat, " + socket.username));
                         // Broadcast when a user connects (notifies everybody but the not the current client)

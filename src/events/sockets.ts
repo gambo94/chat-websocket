@@ -40,7 +40,6 @@ module.exports = (io) => {
                 // gets all room's messages and passing them to front
                 let msgs = await control.get_messages(room);
                 socket.emit('conversation', msgs);
-                console.log('messages from server', msgs);
 
                 // Welcome current user (Sends a message to the single client)
                 socket.emit('message', msgToObj('Bot', `Welcome to the chat, ${socket.username}`));
