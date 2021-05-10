@@ -55,13 +55,8 @@ chatForm.addEventListener('submit', (e) => {
 
 // receives all users from server and inserts names on html
 socket.on('loadUsers', users => {
-    ulUsers.innerHTML = '';
-    // creates li for every user existing in DB
-    users.forEach(users => {
-        let li = document.createElement("li");
-        li.appendChild(document.createTextNode(`${users.username}`));
-        ulUsers.appendChild(li);
-    });
+    outputUser(users);
+    roomName.innerHTML = users[0].room;
 })
 
 // receiving msgs from server and loading them in fron
@@ -78,6 +73,21 @@ socket.on('message', message =>{
     chatMessages.scrollTop = chatMessages.scrollHeight;
 });
 
+socket.on('displayDisconnect', users => {
+    outputUser(users);
+})
+
+
+// Output users to DOM 
+function outputUser(users){
+    ulUsers.innerHTML = '';
+    // creates li for every user existing in DB
+    users.forEach(users => {
+        let li = document.createElement("li");
+        li.appendChild(document.createTextNode(`${users.username}`));
+        ulUsers.appendChild(li);
+    });
+}
 
 
 // Output message to DOM

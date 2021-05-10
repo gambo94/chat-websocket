@@ -77,34 +77,34 @@ var get_messages = function (room) { return __awaiter(_this, void 0, void 0, fun
         }
     });
 }); };
-var user_exists = function (username) { return __awaiter(_this, void 0, void 0, function () {
+var user_exists = function (username, password) { return __awaiter(_this, void 0, void 0, function () {
     var exists, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, service.userExists(username)];
+                return [4 /*yield*/, service.userExists(username, password)];
             case 1:
                 exists = _a.sent();
                 return [2 /*return*/, exists];
             case 2:
                 error_3 = _a.sent();
-                console.log('erroooooorrrrr', error_3);
-                return [3 /*break*/, 3];
+                console.log('error from controller user_exists', error_3);
+                return [2 /*return*/, error_3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
-var get_users = function (room) { return __awaiter(_this, void 0, void 0, function () {
-    var users, error_4;
+var get_sessions = function (room) { return __awaiter(_this, void 0, void 0, function () {
+    var sessions, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, service.getUsers(room)];
+                return [4 /*yield*/, service.getSessions(room)];
             case 1:
-                users = _a.sent();
-                return [2 /*return*/, users];
+                sessions = _a.sent();
+                return [2 /*return*/, sessions];
             case 2:
                 error_4 = _a.sent();
                 console.log('error', error_4);
@@ -131,6 +131,41 @@ var signup_user = function (room, username, password) { return __awaiter(_this, 
         }
     });
 }); };
-module.exports = { user_exists: user_exists, get_users: get_users, signup_user: signup_user,
-    saveChatMessage: saveChatMessage, get_messages: get_messages };
+var insert_session = function (room, username) { return __awaiter(_this, void 0, void 0, function () {
+    var session, result, error_6;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                session = { room: room, username: username };
+                return [4 /*yield*/, service.newSession(session)];
+            case 1:
+                result = _a.sent();
+                return [2 /*return*/, result];
+            case 2:
+                error_6 = _a.sent();
+                return [2 /*return*/, error_6];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+var remove_session = function (username, room) { return __awaiter(_this, void 0, void 0, function () {
+    var result, error_7;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, service.deleteSession(username, room)];
+            case 1:
+                result = _a.sent();
+                return [2 /*return*/, result];
+            case 2:
+                error_7 = _a.sent();
+                return [2 /*return*/, error_7];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+module.exports = { user_exists: user_exists, get_sessions: get_sessions, signup_user: signup_user,
+    saveChatMessage: saveChatMessage, get_messages: get_messages, insert_session: insert_session, remove_session: remove_session };
 //# sourceMappingURL=controller.js.map

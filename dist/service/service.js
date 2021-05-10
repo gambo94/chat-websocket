@@ -39,6 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var User_1 = require("../entity/User");
 var Message_1 = require("../entity/Message");
+var Session_1 = require("../entity/Session");
 var typeorm_1 = require("typeorm");
 var dataConverter = require('../helpers/dateConversion');
 var signupUser = function (user) { return __awaiter(_this, void 0, void 0, function () {
@@ -53,26 +54,12 @@ var signupUser = function (user) { return __awaiter(_this, void 0, void 0, funct
         }
     });
 }); };
-var getUsers = function (room) { return __awaiter(_this, void 0, void 0, function () {
-    var users;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(User_1.User)
-                    .query("\n        SELECT username\n        FROM user\n        WHERE room = '" + room + "'\n    ")];
-            case 1:
-                users = _a.sent();
-                return [2 /*return*/, users];
-        }
-    });
-}); };
-var userExists = function (username) { return __awaiter(_this, void 0, void 0, function () {
+var userExists = function (username, password) { return __awaiter(_this, void 0, void 0, function () {
     var exists;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, typeorm_1.getRepository(User_1.User)
-                    .createQueryBuilder()
-                    .where('username = :username', { username: username })
-                    .getOne()];
+                    .query("\n        SELECT username, room, password \n        FROM user\n        WHERE username='" + username + "'\n        AND password = '" + password + "'\n    ")];
             case 1:
                 exists = _a.sent();
                 return [2 /*return*/, exists];
@@ -126,6 +113,42 @@ var getMessages = function (room) { return __awaiter(_this, void 0, void 0, func
         }
     });
 }); };
-module.exports = { userExists: userExists, getUsers: getUsers, signupUser: signupUser, logUser: logUser,
-    saveChatMessage: saveChatMessage, getMessages: getMessages };
+var newSession = function (session) { return __awaiter(_this, void 0, void 0, function () {
+    var sessionRepo, sessionCreated;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                sessionRepo = typeorm_1.getRepository(Session_1.Session);
+                sessionCreated = sessionRepo.create(session);
+                return [4 /*yield*/, sessionRepo.save(sessionCreated)];
+            case 1: return [2 /*return*/, _a.sent()];
+        }
+    });
+}); };
+var deleteSession = function (username, room) { return __awaiter(_this, void 0, void 0, function () {
+    var deleteSession;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Session_1.Session)
+                    .query("\n        DELETE FROM session\n        WHERE username = '" + username + "'\n        AND room = '" + room + "'\n    ")];
+            case 1:
+                deleteSession = _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); };
+var getSessions = function (room) { return __awaiter(_this, void 0, void 0, function () {
+    var sessions;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Session_1.Session)
+                    .query("\n        SELECT username, room\n        FROM session\n        WHERE room = '" + room + "'\n    ")];
+            case 1:
+                sessions = _a.sent();
+                return [2 /*return*/, sessions];
+        }
+    });
+}); };
+module.exports = { userExists: userExists, signupUser: signupUser, logUser: logUser,
+    saveChatMessage: saveChatMessage, getMessages: getMessages, newSession: newSession, deleteSession: deleteSession, getSessions: getSessions };
 //# sourceMappingURL=service.js.map

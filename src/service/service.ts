@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import {User} from "../entity/User";
 import {Message} from "../entity/Message";
+import {Session} from "../entity/Session";
 import { getRepository } from "typeorm";
 const dataConverter = require('../helpers/dateConversion')
 
@@ -10,21 +11,16 @@ const signupUser = async (user) => {
     return await userRepo.save(userCreated);
 }
 
-const getUsers = async (room) => {
-    let users = await getRepository(User)
-    .query(`
-        SELECT username
-        FROM user
-        WHERE room = '${room}'
-    `)
-    return users;
-}
 
-const userExists = async (username) => {
+
+const userExists = async (username, password) => {
     let exists = await getRepository(User)
-    .createQueryBuilder()
-    .where('username = :username', { username: username })
-    .getOne();
+    .query(`
+        SELECT username, room, password 
+        FROM user
+        WHERE username='${username}'
+        AND password = '${password}'
+    `)
     return exists;
 }
 
@@ -58,5 +54,30 @@ const getMessages = async (room) => {
     return dateToString;
 }
 
-module.exports = { userExists, getUsers, signupUser, logUser, 
-    saveChatMessage, getMessages }
+const newSession = async (session) => {
+    const sessionRepo = getRepository(Session);
+    const sessionCreated = sessionRepo.create(session);
+    return await sessionRepo.save(sessionCreated);
+}
+
+const deleteSession = async (username, room) => {
+    const deleteSession = await getRepository(Session)
+    .query(`
+        DELETE FROM session
+        WHERE username = '${username}'
+        AND room = '${room}'
+    `)
+}
+
+const getSessions = async (room) => {
+    const sessions = await getRepository(Session)
+    .query(`
+        SELECT username, room
+        FROM session
+        WHERE room = '${room}'
+    `)
+    return sessions;
+}
+
+module.exports = { userExists, signupUser, logUser, 
+    saveChatMessage, getMessages, newSession, deleteSession, getSessions }

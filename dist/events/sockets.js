@@ -37,6 +37,7 @@ var _this = this;
 var msgToObj = require('../utils/message');
 var control = require('../controller/controller');
 module.exports = function (io) {
+    var arrayForDisconnecting = [];
     // events
     io.on('connection', function (socket) {
         // New user event
@@ -49,26 +50,42 @@ module.exports = function (io) {
                         username = userObj.username;
                         password = userObj.password;
                         room = userObj.room;
-                        return [4 /*yield*/, control.user_exists(username)];
+                        return [4 /*yield*/, control.user_exists(username, password)];
                     case 1:
                         exists = _a.sent();
-                        console.log('if undefined creates user', exists);
+                        console.log('length', exists.length);
+                        if (exists.length > 0 && exists !== undefined) {
+                            if (exists[0].username !== username || exists[0].password !== password) {
+                                console.log('non corrisponde');
+                                return [2 /*return*/, cb(false)];
+                            }
+                        }
+                        // } else if (exists.length === 0){
+                        //     console.log('array vuoto');
+                        //     return cb(false)
+                        // }
                         // if user exists, front will display error
-                        if (exists !== undefined)
-                            return [2 /*return*/, cb(false)];
+                        // console.log('if exists is undefined creates user',exists)
+                        // if(exists !== undefined) return cb(false);
                         // creates user and storing into DB
                         cb(true);
                         socket.username = username;
                         return [4 /*yield*/, control.signup_user(room, username, password)];
                     case 2:
                         _a.sent();
-                        socket.join(room);
-                        return [4 /*yield*/, control.get_users(room)];
+                        // creates session and storing into DB
+                        return [4 /*yield*/, control.insert_session(room, username)];
                     case 3:
+                        // creates session and storing into DB
+                        _a.sent();
+                        // creates room
+                        socket.join(room);
+                        return [4 /*yield*/, control.get_sessions(room)];
+                    case 4:
                         users = _a.sent();
                         io.to(room).emit('loadUsers', users);
                         return [4 /*yield*/, control.get_messages(room)];
-                    case 4:
+                    case 5:
                         msgs = _a.sent();
                         socket.emit('conversation', msgs);
                         // Welcome current user (Sends a message to the single client)
@@ -83,20 +100,34 @@ module.exports = function (io) {
                                     case 0: return [4 /*yield*/, control.saveChatMessage(room, socket.username, msg)];
                                     case 1:
                                         result = _a.sent();
-                                        console.log('result of saving message in socket', result);
                                         // emits to everybody
-                                        console.log('from chatmessage', socket.username);
                                         io.to(room).emit('message', msgToObj(socket.username, msg));
                                         return [2 /*return*/];
                                 }
                             });
                         }); });
                         // Runs when client disconnects, notifies all clients
-                        socket.on('disconnect', function (data) {
-                            if (!socket.username)
-                                return;
-                            io.to(room).emit('message', msgToObj('Bot', username + " has left the chat"));
-                        });
+                        socket.on('disconnect', function (data) { return __awaiter(_this, void 0, void 0, function () {
+                            var usersSession;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        if (!socket.username)
+                                            return [2 /*return*/];
+                                        io.to(room).emit('message', msgToObj('Bot', username + " has left the chat"));
+                                        // removing user from sessions table
+                                        return [4 /*yield*/, control.remove_session(username, room)];
+                                    case 1:
+                                        // removing user from sessions table
+                                        _a.sent();
+                                        return [4 /*yield*/, control.get_sessions(room)];
+                                    case 2:
+                                        usersSession = _a.sent();
+                                        io.to(room).emit('displayDisconnect', usersSession);
+                                        return [2 /*return*/];
+                                }
+                            });
+                        }); });
                         return [2 /*return*/];
                 }
             });
