@@ -36,6 +36,28 @@ const logUser = async (user) => {
     console.log('loguser',result)
 }
 
+const userAuth = async (username, password) => {
+    let existsUsername = await getRepository(User)
+    .query(`
+        SELECT username, password 
+        FROM user
+        WHERE username='${username}'
+    `)
+    if (existsUsername === undefined || existsUsername.length === 0){
+        return false;
+        }
+    let existsPwd  = await getRepository(User)
+    .query(`
+        SELECT username, password 
+        FROM user
+        WHERE password='${password}'
+    `)
+    if (existsPwd === undefined || existsPwd.length === 0){
+        return false;
+    }
+    return true;
+}
+
 const saveChatMessage = async (chatObj) => {
     const msgRepo = getRepository(Message);
     const msgCreated = msgRepo.create(chatObj);
@@ -79,5 +101,5 @@ const getSessions = async (room) => {
     return sessions;
 }
 
-module.exports = { userExists, signupUser, logUser, 
+module.exports = { userExists, signupUser, logUser, userAuth,
     saveChatMessage, getMessages, newSession, deleteSession, getSessions }

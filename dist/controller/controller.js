@@ -59,8 +59,25 @@ var saveChatMessage = function (room, user, msg) { return __awaiter(_this, void 
         }
     });
 }); };
+var authUser = function (username, password) { return __awaiter(_this, void 0, void 0, function () {
+    var exists, error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, service.userAuth(username, password)];
+            case 1:
+                exists = _a.sent();
+                return [2 /*return*/, exists];
+            case 2:
+                error_2 = _a.sent();
+                return [2 /*return*/, error_2];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 var get_messages = function (room) { return __awaiter(_this, void 0, void 0, function () {
-    var messages, error_2;
+    var messages, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -70,15 +87,15 @@ var get_messages = function (room) { return __awaiter(_this, void 0, void 0, fun
                 messages = _a.sent();
                 return [2 /*return*/, messages];
             case 2:
-                error_2 = _a.sent();
-                console.log(error_2);
+                error_3 = _a.sent();
+                console.log(error_3);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 var user_exists = function (username, password) { return __awaiter(_this, void 0, void 0, function () {
-    var exists, error_3;
+    var exists, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -88,15 +105,15 @@ var user_exists = function (username, password) { return __awaiter(_this, void 0
                 exists = _a.sent();
                 return [2 /*return*/, exists];
             case 2:
-                error_3 = _a.sent();
-                console.log('error from controller user_exists', error_3);
-                return [2 /*return*/, error_3];
+                error_4 = _a.sent();
+                console.log('error from controller user_exists', error_4);
+                return [2 /*return*/, error_4];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 var get_sessions = function (room) { return __awaiter(_this, void 0, void 0, function () {
-    var sessions, error_4;
+    var sessions, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -106,39 +123,20 @@ var get_sessions = function (room) { return __awaiter(_this, void 0, void 0, fun
                 sessions = _a.sent();
                 return [2 /*return*/, sessions];
             case 2:
-                error_4 = _a.sent();
-                console.log('error', error_4);
+                error_5 = _a.sent();
+                console.log('error', error_5);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
-var signup_user = function (room, username, password) { return __awaiter(_this, void 0, void 0, function () {
-    var user, result, error_5;
+var signup_user = function (userAndPwd) { return __awaiter(_this, void 0, void 0, function () {
+    var result, error_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                user = { room: room, username: username, password: password };
-                return [4 /*yield*/, service.signupUser(user)];
-            case 1:
-                result = _a.sent();
-                return [2 /*return*/, result];
-            case 2:
-                error_5 = _a.sent();
-                return [2 /*return*/, error_5];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
-var insert_session = function (room, username) { return __awaiter(_this, void 0, void 0, function () {
-    var session, result, error_6;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                session = { room: room, username: username };
-                return [4 /*yield*/, service.newSession(session)];
+                return [4 /*yield*/, service.signupUser(userAndPwd)];
             case 1:
                 result = _a.sent();
                 return [2 /*return*/, result];
@@ -149,13 +147,14 @@ var insert_session = function (room, username) { return __awaiter(_this, void 0,
         }
     });
 }); };
-var remove_session = function (username, room) { return __awaiter(_this, void 0, void 0, function () {
-    var result, error_7;
+var insert_session = function (room, username) { return __awaiter(_this, void 0, void 0, function () {
+    var session, result, error_7;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, service.deleteSession(username, room)];
+                session = { room: room, username: username };
+                return [4 /*yield*/, service.newSession(session)];
             case 1:
                 result = _a.sent();
                 return [2 /*return*/, result];
@@ -166,6 +165,23 @@ var remove_session = function (username, room) { return __awaiter(_this, void 0,
         }
     });
 }); };
-module.exports = { user_exists: user_exists, get_sessions: get_sessions, signup_user: signup_user,
+var remove_session = function (username, room) { return __awaiter(_this, void 0, void 0, function () {
+    var result, error_8;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, service.deleteSession(username, room)];
+            case 1:
+                result = _a.sent();
+                return [2 /*return*/, result];
+            case 2:
+                error_8 = _a.sent();
+                return [2 /*return*/, error_8];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+module.exports = { user_exists: user_exists, get_sessions: get_sessions, signup_user: signup_user, authUser: authUser,
     saveChatMessage: saveChatMessage, get_messages: get_messages, insert_session: insert_session, remove_session: remove_session };
 //# sourceMappingURL=controller.js.map

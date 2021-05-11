@@ -4,8 +4,10 @@ const chatMessages = document.querySelector('.chat-messages');
 const ulUsers = document.getElementById('users');
 const roomName = document.getElementById('room-name');
 // Main DIVs
+const signupDiv = document.getElementById('signin');
 const loginDiv = document.getElementById('login');
 const chatDiv = document.getElementById('chat');
+const loginSign = document.getElementById('loginSign');
 
 // Login form and data
 const loginForm = document.getElementById('loginForm');
@@ -14,9 +16,38 @@ let password = document.getElementById('password');
 let room = document.getElementById('room');
 let error = document.getElementById('error');
 
-
+// Submit form and data
+const signupForm = document.getElementById('signupForm')
+let user = document.getElementById('user')
+let pwd = document.getElementById('pwd')
+let err = document.getElementById('err')
+let success = document.getElementById('success');
 
 const socket = io();
+
+
+// Signup form submit
+signupForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // it prevents page refresh
+    let userObject = {
+        username: user.value,
+        password: pwd.value,
+    }
+    socket.emit('signup', userObject, function(data){
+        if(data) {
+            success.innerHTML = '';
+            err.innerHTML = '';
+            success.innerHTML = 'User created successfully!';
+        } else {
+            success.innerHTML = '';
+            err.innerHTML = '';
+            err.innerHTML = 'This username already exists';
+        }
+        user.value = '';
+        pwd.value = '';
+    });
+})
+
 
 // Login form submit
 loginForm.addEventListener('submit', (e) => {
@@ -26,12 +57,12 @@ loginForm.addEventListener('submit', (e) => {
         password: password.value,
         room: room.value
     }
-    socket.emit('new user', userObject, function(data){
+    socket.emit('login', userObject, function(data){
         if(data) {
-            loginDiv.style.display = 'none';
+            loginSign.style.display = 'none';
             chatDiv.style.display = 'block';
         } else {
-            error.innerHTML = 'This username already exists';
+            error.innerHTML = 'Username or Password incorrect';
         }
         username.value = '';
         password.value = '';

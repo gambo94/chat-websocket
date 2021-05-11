@@ -3,47 +3,40 @@ const control = require('../controller/controller');
 
 module.exports = (io) => {
 
-    let arrayForDisconnecting = [];
-
         // events
         io.on('connection', socket => {
 
 
+            // signupUser
+            socket.on('signup', async (userAndPwd, cb) => {
+                let userCreated = await control.signup_user(userAndPwd);
+                if(userCreated.username === userAndPwd.username && userCreated.password === userAndPwd.password){
+                    return cb(true);
+                } else {
+                    return cb(false);
+                }
+            });
+
             // New user event
-            socket.on('new user', async (userObj, cb) =>{
+            socket.on('login', async (userObj, cb) =>{
 
                 // creating obj from front data
                 let username = userObj.username;
                 let password = userObj.password;
                 let room = userObj.room;
 
-                // check if user and password exist in DB
-                let exists = await control.user_exists(username, password);
-                console.log('length', exists.length);
-                if(exists.length > 0 && exists !== undefined){
-                    if (exists[0].username !== username || exists[0].password !== password){
-                        console.log('non corrisponde');
-                        return cb(false)
-                    }
+                // Authentication: check if user and password exist in DB
+                let authenticatedUser = await control.authUser(username, password);
+                console.log('from socket auth', authenticatedUser);
+                if(authenticatedUser === false){
+                    return cb(false);
                 }
-
-
-
-                // } else if (exists.length === 0){
-                //     console.log('array vuoto');
-                //     return cb(false)
-                // }
-
-                // if user exists, front will display error
-                // console.log('if exists is undefined creates user',exists)
-                // if(exists !== undefined) return cb(false);
-
-                // creates user and storing into DB
+                
                 cb(true);
                 socket.username = username;
-                await control.signup_user(room, username, password);
                 // creates session and storing into DB
                 await control.insert_session(room, username);
+                console.log('insert funziona')
 
                 // creates room
                 socket.join(room);

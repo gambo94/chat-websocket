@@ -37,12 +37,29 @@ var _this = this;
 var msgToObj = require('../utils/message');
 var control = require('../controller/controller');
 module.exports = function (io) {
-    var arrayForDisconnecting = [];
     // events
     io.on('connection', function (socket) {
+        // signupUser
+        socket.on('signup', function (userAndPwd, cb) { return __awaiter(_this, void 0, void 0, function () {
+            var userCreated;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, control.signup_user(userAndPwd)];
+                    case 1:
+                        userCreated = _a.sent();
+                        if (userCreated.username === userAndPwd.username && userCreated.password === userAndPwd.password) {
+                            return [2 /*return*/, cb(true)];
+                        }
+                        else {
+                            return [2 /*return*/, cb(false)];
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        }); });
         // New user event
-        socket.on('new user', function (userObj, cb) { return __awaiter(_this, void 0, void 0, function () {
-            var username, password, room, exists, users, msgs;
+        socket.on('login', function (userObj, cb) { return __awaiter(_this, void 0, void 0, function () {
+            var username, password, room, authenticatedUser, users, msgs;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -50,42 +67,29 @@ module.exports = function (io) {
                         username = userObj.username;
                         password = userObj.password;
                         room = userObj.room;
-                        return [4 /*yield*/, control.user_exists(username, password)];
+                        return [4 /*yield*/, control.authUser(username, password)];
                     case 1:
-                        exists = _a.sent();
-                        console.log('length', exists.length);
-                        if (exists.length > 0 && exists !== undefined) {
-                            if (exists[0].username !== username || exists[0].password !== password) {
-                                console.log('non corrisponde');
-                                return [2 /*return*/, cb(false)];
-                            }
+                        authenticatedUser = _a.sent();
+                        console.log('from socket auth', authenticatedUser);
+                        if (authenticatedUser === false) {
+                            return [2 /*return*/, cb(false)];
                         }
-                        // } else if (exists.length === 0){
-                        //     console.log('array vuoto');
-                        //     return cb(false)
-                        // }
-                        // if user exists, front will display error
-                        // console.log('if exists is undefined creates user',exists)
-                        // if(exists !== undefined) return cb(false);
-                        // creates user and storing into DB
                         cb(true);
                         socket.username = username;
-                        return [4 /*yield*/, control.signup_user(room, username, password)];
-                    case 2:
-                        _a.sent();
                         // creates session and storing into DB
                         return [4 /*yield*/, control.insert_session(room, username)];
-                    case 3:
+                    case 2:
                         // creates session and storing into DB
                         _a.sent();
+                        console.log('insert funziona');
                         // creates room
                         socket.join(room);
                         return [4 /*yield*/, control.get_sessions(room)];
-                    case 4:
+                    case 3:
                         users = _a.sent();
                         io.to(room).emit('loadUsers', users);
                         return [4 /*yield*/, control.get_messages(room)];
-                    case 5:
+                    case 4:
                         msgs = _a.sent();
                         socket.emit('conversation', msgs);
                         // Welcome current user (Sends a message to the single client)

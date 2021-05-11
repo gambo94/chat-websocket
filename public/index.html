@@ -9,7 +9,30 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
-<!-- LOGIN CONTAINER-->
+<!-- SIGNUP CONTAINER-->
+<div id='loginSign'>
+<div id="signin" class="topnav">  
+  <div class="search-container">
+    <form id="signupForm">
+      <div id="err"></div>
+      <div id="success"></div>
+      <input 
+        type="text" 
+        name ='user' 
+        id='user' 
+        placeholder="Choose username.."
+        />
+        <input 
+        type="password" 
+        name ='pwd' 
+        id='pwd' 
+        placeholder="Choose password.."
+        />
+      <button id="signup" type="submit">Sign Up</button>
+    </form>
+    </div>
+  </div>
+  <!-- LOGIN CONTAINER-->
 <div id="login" class="join-container">
   <header class="join-header">
     <h1><i class="far fa-user"></i> NodeChat</h1>
@@ -29,7 +52,7 @@
       <div class="form-control">
         <label for="password">Password</label>
         <input
-          type="text"
+          type="password"
           name="password"
           id="password"
           placeholder="Enter password..."
@@ -50,11 +73,12 @@
     </form>
   </main>
 </div>
+</div>
 <!-- CHAT CONTAINER-->
 <div id="chat" class="chat-container">
     <header class="chat-header">
-      <h1><i class="fas fa-smile"></i> ChatCord</h1>
-      <a href="index.html" class="btn">Leave Room</a>
+      <h1><i class="fas fa-smile"></i> NodeChat</h1>
+      <a href="/" class="btn">Leave Room</a>
     </header>
     <main class="chat-main">
       <div class="chat-sidebar">
