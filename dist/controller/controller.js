@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -35,9 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-Object.defineProperty(exports, "__esModule", { value: true });
 var service = require('../service/service');
-var path = require('path');
 var saveChatMessage = function (room, user, msg) { return __awaiter(_this, void 0, void 0, function () {
     var chatObj, error_1;
     return __generator(this, function (_a) {
